@@ -26,17 +26,18 @@ public class ShoppingCartController {
 
     @PostMapping("/{email}/addToCart")
     @ResponseBody
-    public String addToCart(@PathVariable String email, @RequestBody String productName) {
+    public String addToCart(@PathVariable String email, @RequestBody String SKU) {
         UserDTO userDTO = userService.findUserByEmail(email);
         if (userDTO == null) {
             return "User not found";
         }
-        System.out.println(productName);
-        ProductDTO productDTO = productService.findProductsByName(productName).get(0);
-        ProductEntity productEntity =  new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice());
-        if (productEntity == null) {
+        System.out.println(SKU);
+        ProductDTO productDTO = productService.findProductBySKU(SKU);
+        if (productDTO == null) {
             return "Product not found";
         }
+        ProductEntity productEntity =  new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU());
+
         userDTO.addToCart(productEntity);
         userService.updateUser(userDTO);
         shoppingCart.addProduct(productEntity);
@@ -86,20 +87,20 @@ public class ShoppingCartController {
 //        return totalPrice;
 //    }
 
-//    @PostMapping("/{email}/cart/checkout")
-//    @ResponseBody
-//    public String checkout(@PathVariable String email) {
-//        UserDTO userDTO = userService.findUserByEmail(email);
-//        if (userDTO == null) {
-//            return "User not found";
-//        }
-//        List<ProductEntity> cartItems = userDTO.getCartItems();
-//        for (ProductEntity product : cartItems) {
-//            productService.updateProductQuantity(product.getName(), product.getQuantity());
-//        }
-//        userDTO.clearCart();
-//        userService.updateUser(userDTO);
-//        shoppingCart.checkout();
-//        return "Checkout successful";
-//    }
+    @PostMapping("/{email}/cart/checkout")
+    @ResponseBody
+    public String checkout(@PathVariable String email) {
+        UserDTO userDTO = userService.findUserByEmail(email);
+        if (userDTO == null) {
+            return "User not found";
+        }
+        List<ProductDTO> cartItems = userDTO.getCartItems();
+        for (ProductDTO product : cartItems) {
+            productService.updateProductQuantity(product.getSKU(), product.getQuantity());
+        }
+        userDTO.clearCart();
+        userService.updateUser(userDTO);
+        shoppingCart.checkout();
+        return "Checkout successful";
+    }
 }

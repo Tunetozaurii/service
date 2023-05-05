@@ -9,17 +9,18 @@ public class ProductDTO {
     private String description;
     private String category;
     private int price;
-
+    private String SKU;
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, int quantity, String description, String category, int price) {
+    public ProductDTO(long id, String name, int quantity, String description, String category, int price, String SKU) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
         this.category = category;
         this.price = price;
+        this.SKU= SKU;
     }
 
     public String getCategory() {
@@ -62,12 +63,21 @@ public class ProductDTO {
         this.description = description;
     }
 
+    public String getSKU() {
+        return SKU;
+    }
+
+    public void setSKU(String SKU) {
+        this.SKU = SKU;
+    }
+
     public int getPrice() {
         return price;
     }
     public void setPrice(int price) {this.price = price;}
 
     public static ProductDTO transformFromEntity(ProductEntity productEntity){
-        return new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice());
+        return new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU());
     }
+
 }

@@ -2,16 +2,19 @@
 package ro.unibuc.hello.data;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Random;
 import java.util.List;
 import java.util.ArrayList;
-
+@Document
 public class UserEntity {
     @Id
     private long id = new Random().nextInt() & Integer.MAX_VALUE;;
     private String firstName;
     private String lastName;
+    @Indexed(unique = true)
     private String email;
     private String name;
     private String password;
