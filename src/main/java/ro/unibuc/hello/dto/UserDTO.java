@@ -5,6 +5,8 @@ import ro.unibuc.hello.data.ProductEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import ro.unibuc.hello.data.UserEntity;
+
 public class UserDTO {
 
     private long id;
@@ -14,6 +16,8 @@ public class UserDTO {
     private String email;
     private String password;
     private List<ProductEntity> shoppingCart;
+
+
 
     public UserDTO(List<ProductEntity> shoppingCart) {
         this.shoppingCart = shoppingCart;
@@ -28,6 +32,13 @@ public class UserDTO {
         this.name = firstName + " "+ lastName;
         this.shoppingCart = shoppingCart;
     }
+
+
+        public static UserDTO transformFromEntity(UserEntity userEntity) {
+            return new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword());
+        }
+
+
 
     public long getId() {
         return id;
@@ -76,7 +87,7 @@ public class UserDTO {
     public void setShoppingCart(List<ProductEntity> shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
-    
+
 
     public void addToCart(ProductEntity product) {
         shoppingCart.add(product);
