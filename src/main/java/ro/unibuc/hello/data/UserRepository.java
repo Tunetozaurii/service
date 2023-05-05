@@ -8,8 +8,9 @@ import java.util.List;
 @Repository
 public interface UserRepository extends MongoRepository<UserEntity, String> {
     UserEntity findById(long Id);
-    List<UserEntity> findByEmailContaining(String email);
     List<UserEntity> findAll();
     List<UserEntity> findByNameContaining(String name);
     void deleteById(long id);
+
+    UserEntity findByEmail(String email);
 }

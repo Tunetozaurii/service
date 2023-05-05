@@ -24,6 +24,7 @@ public class ProductService {
 
     public List<ProductDTO> findProductsByName(String name){
         List<ProductEntity> productEntities =  productRepository.findByNameContaining(name);
+        System.out.println(productEntities);
         if(productEntities == null){
             throw new EntityNotFoundException("Cant find products");
         }
@@ -38,7 +39,7 @@ public class ProductService {
 
     public boolean uploadProduct(ProductDTO productDTO){
         try{
-            productRepository.save(new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory()));
+            productRepository.save(new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice()));
         }catch(Exception e){
             System.out.println(e);
             return false;
@@ -54,10 +55,12 @@ public class ProductService {
         List<ProductDTO> products = new ArrayList<>();
         for (ProductEntity productEntity : productEntities) {
 
-            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory()));
+            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice()));
         }
 
         return products;
     }
 
+    public void updateProductQuantity(String name, int quantity) {
+    }
 }

@@ -12,16 +12,22 @@ public class ProductEntity {
     private int quantity;
     private String description;
     private String category;
+    private int price;
 
     public ProductEntity() {
     }
 
-    public ProductEntity(long id, String name, int quantity, String description, String category) {
+    public ProductEntity(long id, String name, int quantity, String description, String category, int price) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.description = description;
         this.category = category;
+        this.price = price;
+
+    }
+
+    public ProductEntity(int i, String product, int i1, String description, String category) {
     }
 
     public String getCategory() {
@@ -63,4 +69,8 @@ public class ProductEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {this.price = price;}
 }

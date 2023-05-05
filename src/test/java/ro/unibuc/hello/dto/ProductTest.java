@@ -32,5 +32,10 @@ public class ProductTest {
         Assertions.assertEquals("Category", myProduct.getCategory());
     }
 
+    @Test
+    void test_price(){
+        Assertions.assertEquals("Price", myProduct.getPrice());
+    }
+
 
 }

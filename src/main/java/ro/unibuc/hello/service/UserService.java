@@ -27,9 +27,19 @@ public class UserService {
         }
     }
 
+    public UserDTO findUserByEmail(String email) {
+        Optional<UserEntity> userEntityOptional = Optional.ofNullable(userRepository.findByEmail(email));
+        if (userEntityOptional.isPresent()) {
+            UserEntity userEntity = userEntityOptional.get();
+            return CreateUserDtoFromUserEntity(userEntity);
+        } else {
+            throw new EntityNotFoundException("Can't find user with email " + email);
+        }
+    }
+
     public boolean createUser(UserDTO userDTO) {
         try {
-            userRepository.save(new UserEntity(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPassword()));
+            userRepository.save(new UserEntity(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPassword(), userDTO.getShoppingCart()));
         } catch (Exception e) {
             System.out.println(e);
             return false;
@@ -77,7 +87,7 @@ public class UserService {
 
     public boolean addUser(UserDTO userDTO) {
         try {
-            userRepository.save(new UserEntity(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPassword()));
+            userRepository.save(new UserEntity(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail(), userDTO.getPassword(), userDTO.getShoppingCart()));
         } catch (Exception e) {
             System.out.println(e);
             return false;
@@ -98,6 +108,6 @@ public class UserService {
     }
 
     private UserDTO CreateUserDtoFromUserEntity(UserEntity userEntity) {
-        return new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword());
+        return new UserDTO(userEntity.getId(), userEntity.getFirstName(), userEntity.getLastName(), userEntity.getEmail(), userEntity.getPassword(), userEntity.getShoppingCart());
     }
 }

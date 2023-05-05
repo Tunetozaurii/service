@@ -4,6 +4,8 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 public class UserEntity {
     @Id
@@ -13,16 +15,20 @@ public class UserEntity {
     private String email;
     private String name;
     private String password;
+    private List<ProductEntity> shoppingCart;
+
 
     public UserEntity() {
+        shoppingCart = new ArrayList<>();
     }
 
-    public UserEntity(String firstName, String lastName, String email,String password) {
+    public UserEntity(String firstName, String lastName, String email,String password, List<ProductEntity> shoppingCart) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.name = firstName + " " + lastName;
         this.password = password;
+        this.shoppingCart = shoppingCart;
     }
 
         public long getId() {
@@ -66,6 +72,22 @@ public class UserEntity {
 
     public String getName() {
         return name;
+    }
+    public List<ProductEntity> getShoppingCart() {
+        return shoppingCart;
+    }
+
+
+    public void setShoppingCart(List<ProductEntity> shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
+    public void addToCart(ProductEntity product) {
+        shoppingCart.add(product);
+    }
+
+    public void removeFromCart(ProductEntity product) {
+        shoppingCart.remove(product);
     }
 }
 
