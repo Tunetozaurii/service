@@ -34,8 +34,7 @@ public class UserEntity {
         this.shoppingCart = shoppingCart;
     }
 
-    public UserEntity(long i, String john, String doe, String s, String password) {
-    }
+
 
     public long getId() {
             return id;

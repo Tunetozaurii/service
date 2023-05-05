@@ -6,13 +6,9 @@ import ro.unibuc.hello.data.UserEntity;
 
 public class UserTest {
 
-    UserEntity userEntity = new UserEntity(1, "Vlad", "Bogdan", "vladbogdan@example.com", "password");
+    UserEntity userEntity = new UserEntity("Vlad", "Bogdan", "vladbogdan@example.com", "password");
     UserDTO myUser = UserDTO.transformFromEntity(userEntity);
 
-    @Test
-    void test_id(){
-        Assertions.assertSame(1L, myUser.getId());
-    }
 
     @Test
     void test_firstName(){

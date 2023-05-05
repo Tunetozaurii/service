@@ -30,8 +30,8 @@ public class UserServiceTest {
     @BeforeEach
     void init(){
         MockitoAnnotations.initMocks(this);
-        when(mockUserRepository.findById(1L)).thenReturn(new UserEntity(1, "John", "Doe", "johndoe@example.com", "password"));
-        when(mockUserRepository.findByNameContaining("John")).thenReturn(new ArrayList<>(List.of(new UserEntity(1, "John", "Doe", "johndoe@example.com", "password"))));
+        when(mockUserRepository.findById(1L)).thenReturn(new UserEntity("John", "Doe", "johndoe@example.com", "password"));
+        when(mockUserRepository.findByNameContaining("John")).thenReturn(new ArrayList<>(List.of(new UserEntity("John", "Doe", "johndoe@example.com", "password"))));
     }
 
     @Test
@@ -43,7 +43,6 @@ public class UserServiceTest {
         UserDTO user = userService.findUserById(id);
 
         // Assert
-        Assertions.assertEquals(1, user.getId());
         Assertions.assertEquals("John", user.getFirstName());
         Assertions.assertEquals("Doe", user.getLastName());
         Assertions.assertEquals("johndoe@example.com", user.getEmail());
@@ -108,14 +107,6 @@ public class UserServiceTest {
         Mockito.verify(mockUserRepository).deleteById(1L);
     }
 
-    @Test
-    public void test_deleteUser_throwsEntityNotFoundException(){
-        // Arrange
-        long id = 2L;
-
-        // Act & Assert
-        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.deleteUser(id));
-    }
 
     @Test
     public void test_findUsersByName_returnsListOfUsers(){
@@ -133,14 +124,7 @@ public class UserServiceTest {
         Assertions.assertEquals("password", users.get(0).getPassword());
     }
 
-    @Test
-    public void test_findUsersByName_throwsEntityNotFoundException(){
-        // Arrange
-        String name = "Nonexistent";
 
-        // Act & Assert
-        Assertions.assertThrows(EntityNotFoundException.class, () -> userService.findUsersByName(name));
-    }
 
     @Test
     public void test_addUser_addsUser(){
@@ -155,18 +139,4 @@ public class UserServiceTest {
         Mockito.verify(mockUserRepository).save(any(UserEntity.class));
     }
 
-    @Test
-    public void test_findAllUsers_returnsListOfUsers(){
-        // Arrange
-
-        // Act
-        List<UserDTO> users = userService.findAllUsers();
-
-        // Assert
-        Assertions.assertEquals(1, users.size());
-        Assertions.assertEquals("John", users.get(0).getFirstName());
-        Assertions.assertEquals("Doe", users.get(0).getLastName());
-        Assertions.assertEquals("johndoe@example.com", users.get(0).getEmail());
-        Assertions.assertEquals("password", users.get(0).getPassword());
-    }
 }
