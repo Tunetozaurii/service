@@ -9,6 +9,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Component
 public class ProductService {
@@ -24,6 +25,7 @@ public class ProductService {
 
     public List<ProductDTO> findProductsByName(String name){
         List<ProductEntity> productEntities =  productRepository.findByNameContaining(name);
+        System.out.println(productEntities);
         if(productEntities == null){
             throw new EntityNotFoundException("Cant find products");
         }
@@ -36,9 +38,21 @@ public class ProductService {
         return products;
     }
 
+    public ProductDTO findProductBySKU(String SKU){
+
+        ProductEntity productEntity = productRepository.findBySKU(SKU);
+        if(productEntity == null){
+            throw new EntityNotFoundException("Cant find product");
+        }
+
+        return ProductDTO.transformFromEntity(productEntity);
+
+    }
+
+
     public boolean uploadProduct(ProductDTO productDTO){
         try{
-            productRepository.save(new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory()));
+            productRepository.save(new ProductEntity(new Random().nextLong() & Integer.MAX_VALUE, productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU()));
         }catch(Exception e){
             System.out.println(e);
             return false;
@@ -53,11 +67,16 @@ public class ProductService {
         }
         List<ProductDTO> products = new ArrayList<>();
         for (ProductEntity productEntity : productEntities) {
-
-            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory()));
+            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU()));
         }
 
         return products;
     }
 
+    public void updateProductQuantity(String SKU, int quantity) {
+        ProductEntity productEntity= productRepository.findBySKU(SKU);
+        productEntity.setQuantity(productEntity.getQuantity()-quantity);
+        productRepository.save(productEntity);
+
+    }
 }

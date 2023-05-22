@@ -6,7 +6,7 @@ import ro.unibuc.hello.data.ProductEntity;
 
 public class ProductTest {
 
-    ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category");
+    ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category", 10, "SKU1");
     ProductDTO myProduct = ProductDTO.transformFromEntity(productEntity);
 
     @Test
@@ -30,6 +30,11 @@ public class ProductTest {
     @Test
     void test_category(){
         Assertions.assertEquals("Category", myProduct.getCategory());
+    }
+
+    @Test
+    void test_price(){
+        Assertions.assertEquals(10, myProduct.getPrice());
     }
 
 
