@@ -7,16 +7,26 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.spring.CucumberContextConfiguration;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
+import ro.unibuc.hello.HelloApplication;
 import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.e2e.util.HeaderSetup;
 import ro.unibuc.hello.e2e.util.ResponseErrorHandler;
 import ro.unibuc.hello.e2e.util.ResponseResults;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +34,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @CucumberContextConfiguration
-@SpringBootTest()
+@AutoConfigureMockMvc
+@SpringBootTest(classes = HelloApplication.class)
+@ContextConfiguration(classes = HelloApplication.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class HelloWorldSteps {
 
     public static ResponseResults latestResponse = null;
