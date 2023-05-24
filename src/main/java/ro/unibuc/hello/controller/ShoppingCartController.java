@@ -100,7 +100,6 @@ public class ShoppingCartController {
         }
         userDTO.clearCart();
         userService.updateUser(userDTO);
-        shoppingCart.checkout();
         return "Checkout successful";
     }
 }

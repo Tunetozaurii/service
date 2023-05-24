@@ -5,6 +5,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ro.unibuc.hello.data.ProductEntity;
 import ro.unibuc.hello.data.ShoppingCart;
+
+import java.util.List;
+
 public class ShoppingCartTest {
 
     private ShoppingCart shoppingCart;
@@ -14,8 +17,8 @@ public class ShoppingCartTest {
     @BeforeEach
     void setUp() {
         shoppingCart = new ShoppingCart();
-        product1 = new ProductEntity(1, "Product 1", 2, "Description 1", "Category 1", 10, "SKU1");
-        product2 = new ProductEntity(2, "Product 2", 3, "Description 2", "Category 2", 15, "SKU2");
+        product1 = new ProductEntity(1, "Product 1", 2, "Description 1", "Category 1", 10, "SKU1", List.of());
+        product2 = new ProductEntity(2, "Product 2", 3, "Description 2", "Category 2", 15, "SKU2", List.of());
     }
 
     @Test
