@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
+import org.springframework.boot.test.context.SpringBootTest;
 import ro.unibuc.hello.controller.ShoppingCartController;
 import ro.unibuc.hello.data.ProductEntity;
 import ro.unibuc.hello.data.ProductRepository;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DataMongoTest
+@SpringBootTest
 public class ProductIT {
     @Autowired
     private ProductRepository productRepository;
@@ -37,6 +38,7 @@ public class ProductIT {
         product.setCategory("Test Category");
         product.setPrice(10);
         product.setSKU("TESTSKU");
+        productRepository.deleteBySKU(product.getSKU());
         productRepository.save(product);
 
         UserEntity user = new UserEntity();
@@ -45,9 +47,12 @@ public class ProductIT {
         user.setLastName("Doe");
         user.setPassword("password");
         List<ProductEntity> cartItems = new ArrayList<>();
+        product.setQuantity(1);
         cartItems.add(product);
         user.setShoppingCart(cartItems);
+        userRepository.deleteByEmail(user.getEmail());
         userRepository.save(user);
+
 
         shoppingCartController.checkout("test@example.com");
 

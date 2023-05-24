@@ -11,4 +11,5 @@ public interface ProductRepository extends MongoRepository<ProductEntity, String
     List<ProductEntity> findByNameContaining(String name);
     List<ProductEntity> findAll();
     ProductEntity findBySKU(String SKU);
+    void deleteBySKU(String SKU);
 }
