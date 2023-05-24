@@ -54,6 +54,7 @@ public class UserService {
             userEntity.setFirstName(userDTO.getFirstName());
             userEntity.setLastName(userDTO.getLastName());
             userEntity.setEmail(userDTO.getEmail());
+            userEntity.setShoppingCart(userDTO.getShoppingCart());
             userRepository.save(userEntity);
             return true;
         } else {
