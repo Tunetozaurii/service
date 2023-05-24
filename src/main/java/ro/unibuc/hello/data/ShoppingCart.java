@@ -31,10 +31,6 @@ public class ShoppingCart {
         return totalPrice;
     }
 
-    public void checkout() {
-        // TODO: Implement method to complete purchase and empty cart
-    }
-
     public List<ProductEntity> getCartItems() {
         return cartItems;
     }
