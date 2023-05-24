@@ -22,8 +22,10 @@ public class ProductEntity {
 
     private List<ReviewDTO> reviews;
 
+    public ProductEntity() {
+    }
 
-    public ProductEntity(long id, String name, int quantity, String description, String category, int price, String SKU) {
+    public ProductEntity(long id, String name, int quantity, String description, String category, int price, String SKU, List<ReviewDTO> reviews) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -31,6 +33,7 @@ public class ProductEntity {
         this.category = category;
         this.price = price;
         this.SKU = SKU;
+        this.reviews = reviews;
     }
 
 
@@ -88,6 +91,7 @@ public class ProductEntity {
     }
 
     public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
     }
 
     public List<ReviewDTO> getReviews() {

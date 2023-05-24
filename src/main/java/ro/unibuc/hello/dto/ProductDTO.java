@@ -2,6 +2,8 @@ package ro.unibuc.hello.dto;
 
 import ro.unibuc.hello.data.ProductEntity;
 
+import java.util.List;
+
 public class ProductDTO {
     private long id;
     private String name;
@@ -10,10 +12,11 @@ public class ProductDTO {
     private String category;
     private int price;
     private String SKU;
+    private List<ReviewDTO> reviews;
     public ProductDTO() {
     }
 
-    public ProductDTO(long id, String name, int quantity, String description, String category, int price, String SKU) {
+    public ProductDTO(long id, String name, int quantity, String description, String category, int price, String SKU, List<ReviewDTO> reviews) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -21,6 +24,7 @@ public class ProductDTO {
         this.category = category;
         this.price = price;
         this.SKU= SKU;
+        this.reviews = reviews;
     }
 
     public String getCategory() {
@@ -76,8 +80,19 @@ public class ProductDTO {
     }
     public void setPrice(int price) {this.price = price;}
 
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
+    }
+    public void addReview(ReviewDTO reviewDTO){
+        this.reviews.add(reviewDTO);
+    }
+
     public static ProductDTO transformFromEntity(ProductEntity productEntity){
-        return new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU());
+        return new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU(), productEntity.getReviews());
     }
 
 }

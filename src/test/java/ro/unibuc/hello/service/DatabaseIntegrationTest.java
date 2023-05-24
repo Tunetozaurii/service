@@ -23,7 +23,7 @@ public class DatabaseIntegrationTest {
     @BeforeEach
     public void setup() {
         testProduct = new ProductEntity(1, "Test Product", 10, "Test Description",
-                "Test Category", 100, "TESTSKU");
+                "Test Category", 100, "TESTSKU", List.of());
         productRepository.save(testProduct);
     }
 

@@ -1,7 +1,6 @@
 package ro.unibuc.hello.service;
 
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
@@ -26,32 +25,34 @@ public class ProductIT {
     @Autowired
     private UserRepository userRepository;
 
-
     @Autowired
     private ShoppingCartController shoppingCartController;
-    public class ProductEntityTest {
 
-        @org.junit.Test
-        @Test
-        public void testProductEntity() {
-            // Creare obiect ProductEntity
-            long id = 1L;
-            String name = "Product";
-            int quantity = 10;
-            String description = "Product description";
-            String category = "Category";
-            int price = 100;
-            String sku = "SKU123";
-            ProductEntity productEntity = new ProductEntity(id, name, quantity, description, category, price, sku);
+    @Test
+    void testCheckout() {
+        ProductEntity product = new ProductEntity();
+        product.setName("Test Product");
+        product.setQuantity(2);
+        product.setDescription("Test Description");
+        product.setCategory("Test Category");
+        product.setPrice(10);
+        product.setSKU("TESTSKU");
+        productRepository.save(product);
 
-            // Verificare valorile atributelor
-            Assert.assertEquals(id, productEntity.getId());
-            Assert.assertEquals(name, productEntity.getName());
-            Assert.assertEquals(quantity, productEntity.getQuantity());
-            Assert.assertEquals(description, productEntity.getDescription());
-            Assert.assertEquals(category, productEntity.getCategory());
-            Assert.assertEquals(price, productEntity.getPrice());
-            Assert.assertEquals(sku, productEntity.getSKU());
-        }
+        UserEntity user = new UserEntity();
+        user.setEmail("test@example.com");
+        user.setFirstName("John");
+        user.setLastName("Doe");
+        user.setPassword("password");
+        List<ProductEntity> cartItems = new ArrayList<>();
+        cartItems.add(product);
+        user.setShoppingCart(cartItems);
+        userRepository.save(user);
+
+        shoppingCartController.checkout("test@example.com");
+
+
+        ProductEntity updatedProduct = productRepository.findBySKU("TESTSKU");
+        assertEquals(1, updatedProduct.getQuantity());
     }
 }

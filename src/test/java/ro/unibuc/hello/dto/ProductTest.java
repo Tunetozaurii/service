@@ -4,9 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ro.unibuc.hello.data.ProductEntity;
 
+import java.util.List;
+
 public class ProductTest {
 
-    ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category", 10, "SKU1");
+    ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category", 10, "SKU1", List.of());
     ProductDTO myProduct = ProductDTO.transformFromEntity(productEntity);
 
     @Test

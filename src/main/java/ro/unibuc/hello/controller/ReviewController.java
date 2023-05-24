@@ -26,7 +26,7 @@ public class ReviewController {
         return reviewService.getProductReviews(productId);
     }
 
-    @PostMapping("/product/{productId}/reviews")
+    @PostMapping("/product/{sku}/reviews")
     @ResponseBody
     public String addProductReview(@PathVariable String sku, @RequestBody ReviewDTO reviewDTO)
     {

@@ -11,7 +11,6 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Optional;
 
 @Component
 public class ProductService {
@@ -54,7 +53,7 @@ public class ProductService {
 
     public boolean uploadProduct(ProductDTO productDTO){
         try{
-            productRepository.save(new ProductEntity(new Random().nextLong() & Integer.MAX_VALUE, productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU()));
+            productRepository.save(new ProductEntity(new Random().nextLong() & Integer.MAX_VALUE, productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU(), productDTO.getReviews()));
         }catch(Exception e){
             System.out.println(e);
             return false;
@@ -66,8 +65,7 @@ public class ProductService {
     }
 
     public boolean addProductReview(String sku, ReviewDTO reviewDTO) {
-        ProductEntity productEntity = productRepository.findBySKU(sku);
-            // Assuming the product has a list of reviews
+            ProductEntity productEntity = productRepository.findBySKU(sku);
             List<ReviewDTO> reviews = productEntity.getReviews();
             if (reviews == null) {
                 reviews = new ArrayList<>();
@@ -76,7 +74,6 @@ public class ProductService {
             productEntity.setReviews(reviews);
             productRepository.save(productEntity);
             return true;
-
     }
 
 
@@ -87,7 +84,7 @@ public class ProductService {
         }
         List<ProductDTO> products = new ArrayList<>();
         for (ProductEntity productEntity : productEntities) {
-            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU()));
+            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU(), productEntity.getReviews()));
         }
 
 
