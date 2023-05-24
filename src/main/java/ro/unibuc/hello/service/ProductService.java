@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ro.unibuc.hello.data.ProductEntity;
 import ro.unibuc.hello.data.ProductRepository;
 import ro.unibuc.hello.dto.ProductDTO;
+import ro.unibuc.hello.dto.ReviewDTO;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 import java.util.ArrayList;
@@ -52,13 +53,29 @@ public class ProductService {
 
     public boolean uploadProduct(ProductDTO productDTO){
         try{
-            productRepository.save(new ProductEntity(new Random().nextLong() & Integer.MAX_VALUE, productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU()));
+            productRepository.save(new ProductEntity(new Random().nextLong() & Integer.MAX_VALUE, productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU(), productDTO.getReviews()));
         }catch(Exception e){
             System.out.println(e);
             return false;
         }
         return true;
     }
+    public ProductEntity findProductBySku(String SKU) {
+        return productRepository.findBySKU(SKU);
+    }
+
+    public boolean addProductReview(String sku, ReviewDTO reviewDTO) {
+            ProductEntity productEntity = productRepository.findBySKU(sku);
+            List<ReviewDTO> reviews = productEntity.getReviews();
+            if (reviews == null) {
+                reviews = new ArrayList<>();
+            }
+            reviews.add(reviewDTO);
+            productEntity.setReviews(reviews);
+            productRepository.save(productEntity);
+            return true;
+    }
+
 
     public List<ProductDTO> findAllProducts(){
         List<ProductEntity> productEntities =  productRepository.findAll();
@@ -67,8 +84,9 @@ public class ProductService {
         }
         List<ProductDTO> products = new ArrayList<>();
         for (ProductEntity productEntity : productEntities) {
-            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU()));
+            products.add(new ProductDTO(productEntity.getId(), productEntity.getName(), productEntity.getQuantity(), productEntity.getDescription(), productEntity.getCategory(), productEntity.getPrice(), productEntity.getSKU(), productEntity.getReviews()));
         }
+
 
         return products;
     }
@@ -79,4 +97,11 @@ public class ProductService {
         productRepository.save(productEntity);
 
     }
+    public boolean doesProductExist(Long productId)
+    {
+        String productIdString = String.valueOf(productId);
+        ProductEntity productEntity = productRepository.findBySKU(productIdString);
+        return productEntity != null;
+    }
+
 }

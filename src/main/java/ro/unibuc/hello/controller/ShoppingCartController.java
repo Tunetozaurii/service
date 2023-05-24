@@ -36,7 +36,7 @@ public class ShoppingCartController {
         if (productDTO == null) {
             return "Product not found";
         }
-        ProductEntity productEntity =  new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU());
+        ProductEntity productEntity =  new ProductEntity(productDTO.getId(), productDTO.getName(), productDTO.getQuantity(), productDTO.getDescription(), productDTO.getCategory(), productDTO.getPrice(), productDTO.getSKU(), productDTO.getReviews());
 
         userDTO.addToCart(productEntity);
         userService.updateUser(userDTO);

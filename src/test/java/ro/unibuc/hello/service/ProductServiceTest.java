@@ -29,7 +29,7 @@ public class ProductServiceTest {
     @BeforeEach
     void init(){
         MockitoAnnotations.initMocks(this);
-        when(mockProductRepository.findByNameContaining("John")).thenReturn(new ArrayList<>(List.of(new ProductEntity(1, "John Doe", 1, "Description", "Category", 100, "SKU1"))));
+        when(mockProductRepository.findByNameContaining("John")).thenReturn(new ArrayList<>(List.of(new ProductEntity(1, "John Doe", 1, "Description", "Category", 100, "SKU1", List.of()))));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ProductServiceTest {
 
         // Act
         String name = "";
-        ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category", 100, "SKU1");
+        ProductEntity productEntity = new ProductEntity(1, "Product", 1, "Description", "Category", 100, "SKU1", List.of());
         ProductDTO myProduct = ProductDTO.transformFromEntity(productEntity);
         // Act
         productService.uploadProduct(myProduct);

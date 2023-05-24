@@ -4,7 +4,9 @@ package ro.unibuc.hello.data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ro.unibuc.hello.dto.ReviewDTO;
 
+import java.util.List;
 import java.util.Random;
 @Document
 public class ProductEntity {
@@ -18,10 +20,12 @@ public class ProductEntity {
     @Indexed(unique = true)
     private String SKU;
 
+    private List<ReviewDTO> reviews;
+
     public ProductEntity() {
     }
 
-    public ProductEntity(long id, String name, int quantity, String description, String category, int price, String SKU) {
+    public ProductEntity(long id, String name, int quantity, String description, String category, int price, String SKU, List<ReviewDTO> reviews) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -29,6 +33,7 @@ public class ProductEntity {
         this.category = category;
         this.price = price;
         this.SKU = SKU;
+        this.reviews = reviews;
     }
 
 
@@ -51,6 +56,7 @@ public class ProductEntity {
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -82,5 +88,13 @@ public class ProductEntity {
 
     public void setSKU(String SKU) {
         this.SKU = SKU;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
+    }
+
+    public List<ReviewDTO> getReviews() {
+        return reviews;
     }
 }

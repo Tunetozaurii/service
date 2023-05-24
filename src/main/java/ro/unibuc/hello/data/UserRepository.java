@@ -11,6 +11,7 @@ public interface UserRepository extends MongoRepository<UserEntity, String> {
     List<UserEntity> findAll();
     List<UserEntity> findByNameContaining(String name);
     void deleteById(long id);
+    void deleteByEmail(String email);
 
     UserEntity findByEmail(String email);
 }
